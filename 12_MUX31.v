@@ -1,0 +1,23 @@
+/*
+    Part of Execute stage of 5 stage pipelined RISC V
+    MUX 3 to 1 is a three input one output multiplexer which is used for hazard control branching
+*/
+
+`timescale 1ns / 1ps
+module  MUX31(
+    input [31:0] A,
+    input [31:0] B, 
+    input [31:0] C,
+    input [1:0] sel,
+    output reg [31:0] out
+);
+    always @(*)
+    begin
+        case (sel)
+            2'b00:  out = A;
+            2'b01:  out = B;
+            2'b10:  out = C;
+            default: out = 32'b0;
+        endcase
+    end
+endmodule
