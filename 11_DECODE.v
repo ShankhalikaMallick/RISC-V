@@ -9,8 +9,8 @@
 `include "09_REG_FILE.v"
 `include "10_EXTEND.v"
 module DECODE(
-    input clk,
-    input reset,
+    input clk,                                  // input from top module
+    input reset,                                // input from top module
     input regwriteW,
     input [4:0] RDW,                            // DESTINATION REGISTER ADDRESS FROM WRITE BACK BLOCK
     input [31:0] INSTRD, 

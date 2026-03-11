@@ -8,7 +8,7 @@ module ALU_DECODER(
     input [2:0] funct3,                 // function 3 input from control unit
     input [6:0] funct7,                 // function 7 input from control unit 
     input [6:0] opcode,                 // opcode input from control unit
-    output [3:0] alu_control            // output for alu control 4 bit
+    output [3:0] alucontrol            // output for alu control 4 bit
 );
 
 /*  
@@ -17,7 +17,7 @@ module ALU_DECODER(
     NOTE: i have left out SRL ANS SRA instructions
     B type=1, else 0 
 */
-    assign ALUControl = (aluop == 2'b00) ? 4'b0000 :                                                                     // remaining instructions
+    assign alucontrol = (aluop == 2'b00) ? 4'b0000 :                                                                     // remaining instructions
                         (aluop == 2'b01) ? 4'b1111 :                                                                     // branch instructions
                         ((aluop == 2'b10) & (funct3 == 3'b000) & ({opcode[5],funct7[5]} == 2'b11)) ? 4'b0010 :           // SUB
                         ((aluop == 2'b10) & (funct3 == 3'b000) & ({opcode[5],funct7[5]} != 2'b11)) ? 4'b0001 :           // ADD
