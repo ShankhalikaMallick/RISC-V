@@ -1,0 +1,219 @@
+<html>
+<head>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>RISC-V Datapath Visualizer</h2>
+
+<select id="instructionSelect">
+<option value="ADD">ADD x3,x1,x2</option>
+<option value="LW">LW x4,0(x1)</option>
+<option value="SW">SW x2,0(x1)</option>
+<option value="BEQ">BEQ x1,x2,label</option>
+<option value="BNE">BNE x1,x2,label</option>
+<option value="JAL">JAL x1,label</option>
+</select>
+
+<button onclick="run()">Run Instruction</button>
+
+<div class="datapath">
+
+<div class="block" id="imem">Instruction<br>Memory</div>
+
+<div class="block" id="control">Control<br>Unit</div>
+
+<div class="block" id="register">Register<br>File</div>
+
+<div class="block" id="alu">ALU</div>
+
+<div class="block" id="dmem">Data<br>Memory</div>
+
+<div class="block" id="writeback">Write<br>Back</div>
+
+</div>
+
+<h3>Instruction Format</h3>
+
+<div id="formatBox">
+Select an instruction to see its format
+</div>
+
+</div>
+
+
+<script>
+
+function sleep(ms){
+return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function run(){
+
+let inst=document.getElementById("instructionSelect").value
+showFormat(inst)
+
+let blocks=[]
+
+if(inst==="ADD")
+blocks=["imem","control","register","alu","writeback"]
+
+if(inst==="LW")
+blocks=["imem","control","register","alu","dmem","writeback"]
+
+if(inst==="SW")
+blocks=["imem","control","register","alu","dmem"]
+
+if(inst==="BEQ" || inst==="BNE")
+blocks=["imem","control","register","alu"]
+
+if(inst==="JAL")
+blocks=["imem","control","alu","writeback"]
+
+for(let i=0;i<blocks.length;i++){
+
+let b=document.getElementById(blocks[i])
+b.classList.add("active")
+
+await sleep(1200)
+
+b.classList.remove("active")
+
+}
+
+}
+
+
+function showFormat(inst){
+
+let box=document.getElementById("formatBox")
+
+
+if(inst==="ADD"){
+
+box.innerHTML=`
+<b>R-Type Instruction (ADD)</b><br><br>
+
+Bit Layout:<br>
+31-25 | 24-20 | 19-15 | 14-12 | 11-7 | 6-0<br>
+funct7 | rs2 | rs1 | funct3 | rd | opcode<br><br>
+
+Meaning:<br>
+rd = destination register<br>
+rs1 = source register 1<br>
+rs2 = source register 2<br><br>
+
+Operation:<br>
+x[rd] = x[rs1] + x[rs2]
+`
+
+}
+
+
+if(inst==="LW"){
+
+box.innerHTML=`
+<b>I-Type Instruction (LW)</b><br><br>
+
+Bit Layout:<br>
+31-20 | 19-15 | 14-12 | 11-7 | 6-0<br>
+imm | rs1 | funct3 | rd | opcode<br><br>
+
+Meaning:<br>
+rd = destination register<br>
+rs1 = base register<br>
+imm = memory offset<br><br>
+
+Operation:<br>
+x[rd] = Memory[x[rs1] + imm]
+`
+
+}
+
+
+if(inst==="SW"){
+
+box.innerHTML=`
+<b>S-Type Instruction (SW)</b><br><br>
+
+Bit Layout:<br>
+31-25 | 24-20 | 19-15 | 14-12 | 11-7 | 6-0<br>
+imm | rs2 | rs1 | funct3 | imm | opcode<br><br>
+
+Meaning:<br>
+rs2 = value to store<br>
+rs1 = base register<br>
+imm = offset<br><br>
+
+Operation:<br>
+Memory[x[rs1] + imm] = x[rs2]
+`
+
+}
+
+
+if(inst==="BEQ"){
+
+box.innerHTML=`
+<b>B-Type Instruction (BEQ)</b><br><br>
+
+Bit Layout:<br>
+31 | 30-25 | 24-20 | 19-15 | 14-12 | 11-8 | 7 | 6-0<br>
+imm | imm | rs2 | rs1 | funct3 | imm | imm | opcode<br><br>
+
+Meaning:<br>
+rs1 and rs2 are compared<br>
+imm represents branch offset<br><br>
+
+Operation:<br>
+if(x[rs1] == x[rs2]) PC = PC + imm
+`
+
+}
+
+
+if(inst==="BNE"){
+
+box.innerHTML=`
+<b>B-Type Instruction (BNE)</b><br><br>
+
+Bit Layout:<br>
+31 | 30-25 | 24-20 | 19-15 | 14-12 | 11-8 | 7 | 6-0<br>
+imm | imm | rs2 | rs1 | funct3 | imm | imm | opcode<br><br>
+
+Operation:<br>
+if(x[rs1] != x[rs2]) PC = PC + imm
+`
+
+}
+
+
+if(inst==="JAL"){
+
+box.innerHTML=`
+<b>J-Type Instruction (JAL)</b><br><br>
+
+Bit Layout:<br>
+31 | 30-21 | 20 | 19-12 | 11-7 | 6-0<br>
+imm | imm | imm | imm | rd | opcode<br><br>
+
+Meaning:<br>
+rd = return address register<br>
+imm = jump offset<br><br>
+
+Operation:<br>
+x[rd] = PC + 4<br>
+PC = PC + imm
+`
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
