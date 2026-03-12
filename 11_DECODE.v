@@ -25,7 +25,7 @@ module DECODE(
     output jumpE,
     output [3:0] alucontrolE,
     output [31:0] RD1_E, RD2_E, Imm_Ext_E,
-    output [4:0] RS1_E, RS2_E, RD_E,
+    output [4:0] RS1_E, RS2_E, RD_E,                // check why is rs1 and rs2 required
     output [31:0] PCE, PCplus4E
 );
 

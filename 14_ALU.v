@@ -5,17 +5,18 @@
 
 `timescale 1ns / 1ps
 module ALU(
-    input A,                                    // input SRCA_E from 3:1 mux
-    input B,                                    // input SRCB_E from 3:1 mux
+    input [31:0]A,                                    // input SRCA_E from 3:1 mux
+    input [31:0]B,                                    // input SRCB_E from 3:1 mux
     input [3:0] alucontrol,                     // alucontrol signal
     output reg [31:0] result,                   // result of R type operations
-    output reg br
+    output zeroE                                // for condition of jump or branch
 );
 
+    assign zeroE = &(~result);
+    
     always @(*)
     begin
-        result= 32'b0;
-        br = 1'b0;
+        result = 32'b0;
         case (alucontrol)
         4'b0001: result = A + B;
         4'b0010: result = A - B;
@@ -27,12 +28,7 @@ module ALU(
         4'b1000: result = ($signed(A)) >>> B;
         4'b1001: result = A | B;
         4'b1010: result = A & B;
-        4'b1111: br = 1'b1;
-        default: 
-        begin
-            result = 32'b0;
-            br = 1'b0;
-        end
+        default: result = 32'b0;
         endcase
     end
 endmodule

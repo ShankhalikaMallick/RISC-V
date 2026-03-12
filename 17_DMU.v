@@ -1,9 +1,13 @@
-// verilog code for DATA MEMORY UNIT. 
-// The Data Memory unit is used for load and store instructions that is to read or write data from/to memory.
+/*
+    Part of memory stage of 5 stage pipelined RISC V
+    DMU is the data memory unit which stores the reults into memory
+    is used for load and store instructions that is to read or write data from/to memory.
+*/
 
-module data_memory_unit(
+`timescale 1ps/1ps
+module DMU(
     input clk,                      // clock input from top module
-    input mem_rd,                   // reading from memory enable signal
+    input reset,                    // reset input
     input mem_wr,                   // write to memory enable signal
     input [31:0] mem_add,           // memory address where read/ write operation is performed
     input [31:0] wr_data,           // data to be written into memory
@@ -14,7 +18,7 @@ module data_memory_unit(
     reg [31:0] memory [0:1023];
 
 // READ OPERATION: read from memory if read is enabled else 0
-    assign rd_data = (mem_rd == 1'b1)? memory[ mem_add [11:2]] : 32'h0;
+    assign rd_data = (reset == 1'b0)? memory[ mem_add [11:2]] : 32'h0;
 
 // WRITE OPERATION: write into memory when write is enabled
     always @ (posedge clk)
@@ -22,5 +26,10 @@ module data_memory_unit(
         if(mem_wr == 1'b1)
             memory [mem_add[11:2]] <= wr_data;
             // address[11:2] gives word address (ignore lower 2 bits)
+    end
+
+    initial begin
+        mem[0] = 32'h00000000;
+        //mem[40] = 32'h00000002;
     end
 endmodule

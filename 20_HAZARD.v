@@ -16,24 +16,33 @@
     This avoids pipeline stalls and resolves RAW hazards.
 
     1.  Memory Stage Forwarding:
-        if (RegWriteM and (RdM != 0) and (RdM == RS1E)) then ForwardAE = 10
-        if (RegWriteM and (RdM != 0) and (RdM == RS2E)) then ForwardBE = 10
+        if (regwriteM and (RdM != 0) and (RdM == RS1E)) then ForwardAE = 10
+        if (regwriteM and (RdM != 0) and (RdM == RS2E)) then ForwardBE = 10
             Meaning: Instruction in Memory stage will write to register RdM; 
             Current instruction in Execute stage needs the same register (Rs1E)
             So forward the value from Memory stage to ALU input A
 
     2.  Writeback Stage Forwarding
-        if (RegWriteW and (RdW != 0) and (RdW == Rs1E)) then ForwardAE = 01
-        if (RegWriteW and (RdW != 0) and (RdW == Rs1E)) then ForwardBE = 01
+        ir (w and (RdW != 0) and (RdW == Rs1E)) then ForwardAE = 01
+        ir (w and (RdW != 0) and (RdW == Rs1E)) then ForwardBE = 01
             Meaning:    If Value is available in Writeback stage
             Forward it to the Execute stage
 
 */
-
+`timescale 1ps/1ps
 module HAZARD(
     input reset,
-    input regwriteM
+    input regwriteM,
+    input regwriteW,
+    input [4:0] RD_M, RD_W, Rs1_E, Rs2_E,
     output [1:0] ForwardA_E,
-    output [1:0] ForwardB_E,
+    output [1:0] ForwardB_E
 );
+ assign ForwardAE = (reset == 1'b0) ? 2'b00 : 
+                       ((regwriteM == 1'b1) & (RD_M != 5'h00) & (RD_M == Rs1_E)) ? 2'b10 :
+                       ((regwriteW == 1'b1) & (RD_W != 5'h00) & (RD_W == Rs1_E)) ? 2'b01 : 2'b00;
+                       
+    assign ForwardBE = (reset == 1'b0) ? 2'b00 : 
+                       ((regwriteM == 1'b1) & (RD_M != 5'h00) & (RD_M == Rs2_E)) ? 2'b10 :
+                       ((regwriteW == 1'b1) & (RD_W != 5'h00) & (RD_W == Rs2_E)) ? 2'b01 : 2'b00;
 endmodule
