@@ -10,8 +10,7 @@ This project animates the execution stages of instructions and explains the stru
 
 You can see the working version here:
 
-👉 **Live Project:**  
-https://yourusername.github.io/riscv-datapath-visualizer/
+👉 **Live Project:**  [RISC V](https://codepen.io/Shankx/full/XJjNvPp)
 
 ---
 
