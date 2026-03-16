@@ -6,7 +6,7 @@
 
 `timescale 1ps/1ps
 `include "17_DMU.v"
-module mem(
+module MEM(
     input clk,
     input reset, 
     input regwriteM,

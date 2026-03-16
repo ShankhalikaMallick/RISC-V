@@ -1,71 +1,110 @@
-// this is the top module which is made to work by the top module test bench
-// this controls the working of IFU, IMU, CU, DPU
+`timescale 1ps/1ps
+`include "05_FETCH.v"
+`include "11_DECODE.v"
+`include "16_EXECUTE.v"
+`include "18_MEMORY.v"
+`include "19_WRITEBACK.v"
+`include "20_HAZARD.v"
 
-`timescale 1ns/1ps
-`include "IFU.v"
-`include "IMU.v"
-`include "CU.v"
-`include "DPU.v"
-`include "IMM_GEN.v"
+module TOP(
+    input clk,          
+    input reset );    
 
-module TOP_RISCV(
-    input clk,          // clock source from testbench
-    input reset         // reset signal from testbench
-    );        
-                   
-    reg [31:0] imm_address;            
-    reg beq;                     
-    reg bneq;                     
-    reg bge;                      
-    reg blt;                      
-    reg jump;                     
-    reg [31:0] pc;            
-    reg [31:0] curr_pc; 
 
-    reg [31:0] instruction_code; 
-    reg [5:0] alu_control;
-    reg mem_to_reg;
-    reg b_control;
-    reg sw;
-    reg lb;
-    reg lui_control;
 
-    wire [6:0] funct7;
-    wire [2:0] funct3;
-    wire [6:0] opcode;
+//05 FETCH
+    FETCH(
+        .clk,        
+        .reset,         
+        .PCsrcE,            
+        .PCtargetE,    
+        .INSTRD, 
+        .PC_D,  
+        .PCplus4D     
+    );
 
-    assign funct7= instruction_code [31:25];
-    assign funct3= instruction_code [14:12];
-    assign opcode= instruction_code [6:0];
+//11 DECODE
+    DECODE(
+        .clk,                           
+        .reset,                         
+        .regwriteW,
+        .RDW,                       
+        .INSTRD, 
+        .PCD,
+        .PCplus4D,
+        .resultW,
+        .regwriteE,
+        .alusrcE,
+        .memwriteE,
+        .resultsrcE,
+        .branchE,
+        .jumpE,
+        .alucontrolE,
+        .RD1_E, RD2_E, Imm_Ext_E,
+        .RS1_E, RS2_E, RD_E,         
+        .PCE, PCplus4E
+    );
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // INSTRUCTION FETCH UNIT // 
-    // According to the type of signals the program counter is updated which is used in IMU for instruction retrieval
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    instruction_fetch_unit ob1( clk, reset, imm_address, beq, bneq, bge, blt, jump, pc, curr_pc);
-    
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // INSTRUCTION MEMORY UNIT // 
-    // This unit is used as a read only memory to store all the instructions 
-    // According to the program counter the instruction is retrieved from the instruction memory
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    instruction_memory ob2(clk,reset,pc,instruction_code);
+//16 EXECUTE
+    EXECUTE(
+        .clk,                                  
+        .reset,                                
+        .regwriteE,                             
+        .alusrcE,
+        .memwriteE,
+        .resultsrcE,
+        .branchE,
+        .jumpE,
+        .alucontrolE,
+        .RD1_E, RD2_E, Imm_Ext_E,
+        .RD_E,
+        .PCE, PCplus4E,
+        .resultW,                               
+        .ForwardA_E, ForwardB_E,                 
+        .PCSrcE, 
+        .regwriteM, memwriteM, resultsrcM,
+        .RD_M ,
+        .PCplus4M, writedataM, aluresultM,
+        .pc_targetE
+    );
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // CONTROL UNIT // 
-    // According to the type of signals the program counter is updated which is used in IMU for instruction retrieval
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    control_unit ob3(reset,funct7,funct3,opcode,alu_control,mem_to_reg,b_control, jump, sw, lb, lui_control);
+//18 MEMORY
+    MEM(
+        .clk,
+        .reset, 
+        .regwriteM,
+        .resultsrcM,
+        .memwriteM,
+        .RD_M,
+        .PCplus4M, writedataM, aluresultM,
+        .resultsrcW,
+        .regwriteW,
+        .PCplus4W, aluresultW,
+        .RD_W,
+        .readdataW                                 
+    );
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // IMMEDIATE GENERATOR // 
-    // According to the type of instruction, the immediate value is calculated
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    immediate_generator ob4(instruction_code,opcode,imm_address);
+//19 WRITEBACK
+    WB(
+        .clk,
+        .reset,
+        .resultsrcW,
+        .regwriteW,
+        .PCplus4W,                 
+        .aluresultW,
+        .readdataW,
+        .RD_W,
+        .resultW
+    );
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // DATA PATH UNIT // 
-    // Data stored in register is extracted, and operations are performed based on the type of instructions
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    data_path_unit ob5(imm_address);
+//20 HAZARD 
+    HAZARD(
+        .reset,
+        .regwriteM,
+        .regwriteW,
+        .RD_M, RD_W, Rs1_E, Rs2_E,
+        .ForwardA_E,
+        .ForwardB_E
+    );
+
 endmodule
