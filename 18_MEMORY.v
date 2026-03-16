@@ -1,7 +1,7 @@
 /*
-    Part of execute stage of 5 stage pipelined RISC V
-    Execute is the register unit which stores the reults of 3rd stage
-    3rd stage consistes of 3:1 MUX, 2:1 MUX, ALU, PC_ADDER blocks
+    Part of memory stage of 5 stage pipelined RISC V
+    MEMORY is the register unit which stores the reults of 4th stage
+    4th stage consistes of DATA MEMORY UNIT
 */
 
 `timescale 1ps/1ps
