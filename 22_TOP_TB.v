@@ -13,9 +13,6 @@ initial begin
 end
 always #50 clk = ~clk;
 initial begin
-    $monitor("Time=%0t PC=%h Instr=%h resultW=%h RD_W=%0d", $time, ob26.ob20.PC_F, ob26.ob20.INSTRF, ob26.resultW, ob26.RD_W);
-end
-initial begin
     $dumpfile("TOP.vcd");
     $dumpvars(0, TOP_TB); 
 end
