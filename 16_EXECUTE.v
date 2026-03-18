@@ -25,11 +25,11 @@ module EXECUTE(
     input [31:0] PCE, PCplus4E,
     input [31:0] resultW,                               
     input [1:0] ForwardA_E, ForwardB_E,                 
-    output PCSrcE, 
+    output PCsrcE, 
     output regwriteM, memwriteM, resultsrcM,
     output [4:0] RD_M ,
     output [31:0] PCplus4M, writedataM, aluresultM,
-    output [31:0] pc_targetE
+    output [31:0] PCtargetE
 );
 
 // interin wires
@@ -78,10 +78,10 @@ module EXECUTE(
     PC_ADDER ob14(
         .PC (PCE),                    
         .imm (Imm_Ext_E),                    
-        .pc_target (pc_targetE)             
+        .pc_target (PCtargetE)             
     );
 
-    assign PCSrcE = (zeroE & branchE) | jumpE;
+    assign PCsrcE = (zeroE & branchE) | jumpE;
     assign regwriteM = regwriteE_r;
     assign memwriteM = memwriteE_r;
     assign resultsrcM = resultsrcE_r;

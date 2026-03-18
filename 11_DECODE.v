@@ -12,9 +12,9 @@ module DECODE(
     input clk,                                  // input from top module
     input reset,                                // input from top module
     input regwriteW,
-    input [4:0] RDW,                            // DESTINATION REGISTER ADDRESS FROM WRITE BACK BLOCK
+    input [4:0] RD_W,                            // DESTINATION REGISTER ADDRESS FROM WRITE BACK BLOCK
     input [31:0] INSTRD, 
-    input [31:0] PCD,
+    input [31:0] PC_D,
     input [31:0] PCplus4D,
     input [31:0] resultW,
     output regwriteE,
@@ -70,7 +70,7 @@ module DECODE(
         .reset (reset),
         .A1 (INSTRD [19:15]),               
         .A2 (INSTRD [24:20]),               
-        .A3 (RDW),
+        .A3 (RD_W),
         .WD3 (resultW),
         .WE3 (regwriteW),
         .RD1 (RD1_D),
@@ -120,7 +120,7 @@ module DECODE(
             RD_D_r <= INSTRD [11:7];
             RS1_D_r <= INSTRD [19:15];
             RS2_D_r <= INSTRD [24:20];
-            PCD_r <= PCD;
+            PCD_r <= PC_D;
             PCplus4D_r <= PCplus4D;
         end
     end

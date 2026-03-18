@@ -34,15 +34,15 @@ module HAZARD(
     input reset,
     input regwriteM,
     input regwriteW,
-    input [4:0] RD_M, RD_W, Rs1_E, Rs2_E,
+    input [4:0] RD_M, RD_W, RS1_E, RS2_E,
     output [1:0] ForwardA_E,
     output [1:0] ForwardB_E
 );
  assign ForwardAE = (reset == 1'b0) ? 2'b00 : 
-                       ((regwriteM == 1'b1) & (RD_M != 5'h00) & (RD_M == Rs1_E)) ? 2'b10 :
-                       ((regwriteW == 1'b1) & (RD_W != 5'h00) & (RD_W == Rs1_E)) ? 2'b01 : 2'b00;
+                       ((regwriteM == 1'b1) & (RD_M != 5'h00) & (RD_M == S)) ? 2'b10 :
+                       ((regwriteW == 1'b1) & (RD_W != 5'h00) & (RD_W == S)) ? 2'b01 : 2'b00;
                        
     assign ForwardBE = (reset == 1'b0) ? 2'b00 : 
-                       ((regwriteM == 1'b1) & (RD_M != 5'h00) & (RD_M == Rs2_E)) ? 2'b10 :
-                       ((regwriteW == 1'b1) & (RD_W != 5'h00) & (RD_W == Rs2_E)) ? 2'b01 : 2'b00;
+                       ((regwriteM == 1'b1) & (RD_M != 5'h00) & (RD_M == S)) ? 2'b10 :
+                       ((regwriteW == 1'b1) & (RD_W != 5'h00) & (RD_W == S)) ? 2'b01 : 2'b00;
 endmodule
