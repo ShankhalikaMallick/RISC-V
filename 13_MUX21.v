@@ -3,7 +3,7 @@
     MUX 2 to 1 is a two input one output multiplexer which provides input to the ALU
 */
 
-`timescale 1ns / 1ps
+`timescale 1ps / 1ps
 module MUX21 (
     input [31:0] A,
     input [31:0] B, 

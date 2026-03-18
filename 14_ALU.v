@@ -3,7 +3,7 @@
     This is the Aritmetic & Logic unit which calculates the operations based on the Alucontrol sent from control unit
 */
 
-`timescale 1ns / 1ps
+`timescale 1ps / 1ps
 module ALU(
     input [31:0]A,                                    // input SRCA_E from 3:1 mux
     input [31:0]B,                                    // input SRCB_E from 3:1 mux

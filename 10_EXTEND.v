@@ -3,7 +3,7 @@
     EXTEND is used to extend the immediate address into a 32 bit immediate addresses
 */
 
-`timescale 1ns / 1ps
+`timescale 1ps / 1ps
 module EXTEND(
     input [31:0] In,                // 32 bit instruction
     input [1:0] immsrc,             // immediate value control from Main _decoder in control unit

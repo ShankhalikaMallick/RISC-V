@@ -1,27 +1,28 @@
 /*
     Part of Instruction Fetch stage of 5 stage pipelined RISC V
     IMU is the Instruction Memory Unit
-    It is a byte addressing memory
     The output is an istruction code which is of 32 bits. (8+8+8+8)
 */
 
 
-`timescale 1ns / 1ps
+`timescale 1ps / 1ps
 module IMU(
-    input clk,
     input reset,
     input [31:0] PC_F,                    // PROGRAMME COUNTER input from PC
     output [31:0] INSTRF                  // 32 BIT INSTRUCITON      
 );
       
-    reg [7:0] memory [108 :0];          // MEMORY FOR STORING THE INSTRUCTION OF WIDTH 32 BITS AND NUMBER OF LOCATIONS : 109
+    reg [31:0] memory [1023 :0];          
     
     //INSTRUCTION FETCHING FROM THE MEMORY
-    assign INSTRF = {memory[PC_F+3],memory[PC_F+2],memory[PC_F+1],memory[PC_F]}; 
+    assign INSTRF = (reset == 1) ? 32'b0 : memory[PC_F[31:2]];
 
-    always@(posedge clk)
+    initial
     begin
-            if(reset == 1)
+        $display("IMU INITIALIZED");
+        $readmemh("memfile.hex",memory);
+  end
+  /*          if(reset == 1)
             begin
                        // Setting 32-bit instruction: add : 0x00940333 
                        memory[3] = 8'h00;
@@ -173,5 +174,5 @@ module IMU(
              end
     end
 
-                
+         */       
 endmodule

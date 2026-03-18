@@ -3,7 +3,7 @@
     PC_ADD is the multiplexer which takes two inputs PC+4 and PCTarget
 */
 
-`timescale 1ns/1ps
+`timescale 1ps/1ps
 
 module PC_ADD(
     input [31:0] PC_F,                 // PC_F program counter from PC

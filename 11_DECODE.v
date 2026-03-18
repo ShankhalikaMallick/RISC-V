@@ -4,7 +4,7 @@
     2nd stage consistes of control unit, registers and extend blocks
 */
 
-`timescale 1ns / 1ps
+`timescale 1ps / 1ps
 `include "08_CU.v"
 `include "09_REG_FILE.v"
 `include "10_EXTEND.v"

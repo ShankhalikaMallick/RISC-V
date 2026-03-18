@@ -3,6 +3,7 @@
     MAIN DECODER is a part of control unit where we decode the instruction into type of instruction based on the opcode
 */
 
+`timescale 1ps/1ps
 module MAIN_DECODER(
     input [6:0] opcode,             // opcode as input from control unit
     output regwrite,                // for writing into register

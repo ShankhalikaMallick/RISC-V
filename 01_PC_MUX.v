@@ -4,7 +4,7 @@
     And decides the updation of the program counter based on the value of PCsrcE
 */
 
-`timescale 1ns/1ps
+`timescale 1ps/1ps
 
 module PC_MUX(
     input [31:0] PCplus4F,               // default updation of Program counter

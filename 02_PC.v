@@ -4,7 +4,7 @@
     we reset the value of program counter based on reset button, else we update the new value
 */
 
-`timescale 1ns / 1ps
+`timescale 1ps / 1ps
 
 module PC(
     input clk,                                              // clock signal

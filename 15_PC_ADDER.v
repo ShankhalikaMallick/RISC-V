@@ -5,7 +5,7 @@
     Target Address = PC + sign-extended immediate
 */
 
-`timescale 1ns / 1ps
+`timescale 1ps / 1ps
 module PC_ADDER(
     input [31:0] PC,                    // current program counter
     input [31:0] imm,                   // the sign extended immediate address to be added 

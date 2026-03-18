@@ -3,6 +3,7 @@
     ALU DECODER is a part of control unit where we decode the Arithmetic logical operations
 */
 
+`timescale 1ps/1ps
 module ALU_DECODER(
     input [1:0] aluop,                  // input from main decoder
     input [2:0] funct3,                 // function 3 input from control unit

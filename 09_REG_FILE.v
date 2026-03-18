@@ -4,7 +4,7 @@
     It stored data on which operations are done and stored into
 */
 
-`timescale 1ns / 1ps
+`timescale 1ps / 1ps
 module REG_FILE(
     input clk,                          // clock input from DECODE.v
     input reset,                        // reset input from DECODE.v

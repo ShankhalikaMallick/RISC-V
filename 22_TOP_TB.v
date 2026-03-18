@@ -1,7 +1,7 @@
 
 
 `include "21_TOP.v"
-
+`timescale 1ps/1ps
 module TOP_TB();
 reg clk, reset;
 TOP ob26(clk, reset);
@@ -9,7 +9,7 @@ initial begin
     clk = 0;
     reset = 1;
     #10 reset = 0; // Deassert reset after 10 time units
-    #1000 $finish; // Run the simulation for 1000 time units
+    #10000 $finish; // Run the simulation for 1000 time units
 end
 always #50 clk = ~clk;
 initial begin

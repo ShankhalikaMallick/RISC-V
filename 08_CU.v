@@ -5,7 +5,7 @@
     It consists of two sub blocks : ALU decoder and Main Decoder
 */
 
-`timescale 1ns / 1ps
+`timescale 1ps / 1ps
 `include "06_MAIN_DECODER.v"
 `include "07_ALU_DECODER.v"
  

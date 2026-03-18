@@ -3,7 +3,7 @@
     MUX 3 to 1 is a three input one output multiplexer which is used for hazard control branching
 */
 
-`timescale 1ns / 1ps
+`timescale 1ps / 1ps
 module  MUX31(
     input [31:0] A,
     input [31:0] B, 

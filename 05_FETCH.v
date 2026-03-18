@@ -4,7 +4,7 @@
     1st stage module fetches the next instruction based on the updated program counter
 */
 
-`timescale 1ns / 1ps
+`timescale 1ps / 1ps
 `include "01_PC_MUX.v"
 `include "02_PC.v"
 `include "03_IMU.v"
@@ -29,12 +29,12 @@ module FETCH(
 
     PC_MUX ob1 (PCplus4F, PCtargetE, PCsrcE, PCF);
     PC ob2 (clk, reset, PCF, PC_F);
-    IMU ob3 (clk, reset, PC_F, INSTRF);
+    IMU ob3 ( reset, PC_F, INSTRF);
     PC_ADD ob4 (PC_F, PCplus4F);
 
     always @(posedge clk or negedge reset) 
     begin
-        if(reset == 1'b0) 
+        if(reset == 1'b1) 
         begin
             InstrF_reg <= 32'h00000000;
             PCF_reg <= 32'h00000000;
@@ -48,9 +48,9 @@ module FETCH(
     end
 
     // outputs of register
-    assign  INSTRD = (reset == 1'b0) ? 32'h00000000 : InstrF_reg;
-    assign  PC_D = (reset == 1'b0) ? 32'h00000000 : PCF_reg;
-    assign  PCplus4D = (reset == 1'b0) ? 32'h00000000 : PCplus4F_reg;
+    assign  INSTRD = (reset == 1'b1) ? 32'h00000000 : InstrF_reg;
+    assign  PC_D = (reset == 1'b1) ? 32'h00000000 : PCF_reg;
+    assign  PCplus4D = (reset == 1'b1) ? 32'h00000000 : PCplus4F_reg;
 
 
 endmodule

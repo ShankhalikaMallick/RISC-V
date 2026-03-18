@@ -4,7 +4,7 @@
     3rd stage consistes of 3:1 MUX, 2:1 MUX, ALU, PC_ADDER blocks
 */
 
-`timescale 1ns / 1ps
+`timescale 1ps / 1ps
 `include "12_MUX31.v"
 `include "13_MUX21.v"
 `include "14_ALU.v"
