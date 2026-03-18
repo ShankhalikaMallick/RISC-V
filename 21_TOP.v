@@ -6,6 +6,8 @@
 `include "19_WRITEBACK.v"
 `include "20_HAZARD.v"
 
+`timescale 1ps/1ps
+
 module TOP(
     input clk,          
     input reset );    
