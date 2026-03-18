@@ -29,7 +29,7 @@ module DMU(
     end
 
     initial begin
-        mem[0] = 32'h00000000;
+        memory[0] = 32'h00000000;
         //mem[40] = 32'h00000002;
     end
 endmodule

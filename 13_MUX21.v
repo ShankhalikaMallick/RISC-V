@@ -8,8 +8,8 @@ module MUX21 (
     input [31:0] A,
     input [31:0] B, 
     input sel,
-    output reg [31:0] out
-);
+    output reg [31:0] out );
+    
     always @(*)
     begin
         case (sel)

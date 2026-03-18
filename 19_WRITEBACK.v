@@ -4,13 +4,13 @@
     5th stage consistes of 2:1 MUX block
 */
 `timescale 1ps/1ps
-`include "13_MUX21.v"
+//`include "13_MUX21.v"
 module WB(
     input clk,
     input reset,
     input resultsrcW,
     input regwriteW,
-    input [31:] PCplus4W,                       // check why this is here
+    input [31:0] PCplus4W,                       // check why this is here
     input [31:0] aluresultW,
     input [31:0] readdataW,
     input [4:0] RD_W,
