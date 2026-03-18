@@ -27,8 +27,10 @@ module REG_FILE(
     assign RD1 = (reset==1'b1)? 32'b0: regs [A1];
     assign RD2 = (reset==1'b1)? 32'b0: regs [A2];
 
+     integer i;
      initial begin
-        regs[0] = 32'h00000000;
+        for (i = 0; i < 32; i = i + 1)
+            regs[i] = 32'h00000000;
     end
 
 endmodule

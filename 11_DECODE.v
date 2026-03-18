@@ -70,7 +70,7 @@ module DECODE(
         .reset (reset),
         .A1 (INSTRD [19:15]),               
         .A2 (INSTRD [24:20]),               
-        .A3 (RD_W),
+        .A3 (RD_W),                              // CHECK!!
         .WD3 (resultW),
         .WE3 (regwriteW),
         .RD1 (RD1_D),
@@ -128,7 +128,7 @@ module DECODE(
 // outputs of the decode register
     assign regwriteE = regwriteD_r;
     assign alusrcE = alusrcD_r;
-    assign memwriteD = memwriteD_r;
+    assign memwriteE = memwriteD_r;
     assign resultsrcE = resultsrcD_r;
     assign branchE = branchD_r;
     assign jumpE = jumpD_r;

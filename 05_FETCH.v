@@ -32,7 +32,7 @@ module FETCH(
     IMU ob3 ( reset, PC_F, INSTRF);
     PC_ADD ob4 (PC_F, PCplus4F);
 
-    always @(posedge clk or negedge reset) 
+    always @(posedge clk or posedge reset) 
     begin
         if(reset == 1'b1) 
         begin
@@ -42,7 +42,7 @@ module FETCH(
         end
         else begin
             InstrF_reg <= INSTRF;
-            PCF_reg <= PCF;
+            PCF_reg <= PC_F;
             PCplus4F_reg <= PCplus4F;
         end
     end

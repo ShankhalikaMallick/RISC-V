@@ -57,7 +57,7 @@ module EXECUTE(
         .B (resultW), 
         .C (aluresultM),
         .sel (ForwardB_E),
-        .out (SRCB_E)
+        .out (SRCB_inter)
     );
 
     MUX21 ob12(
@@ -85,7 +85,7 @@ module EXECUTE(
     assign regwriteM = regwriteE_r;
     assign memwriteM = memwriteE_r;
     assign resultsrcM = resultsrcE_r;
-    assign RdM = RD_E_r;
+    assign RD_M = RD_E_r;
     assign PCplus4M = PCplus4E_r;
     assign writedataM = RD2_E_r;
     assign aluresultM = aluresultE_r;

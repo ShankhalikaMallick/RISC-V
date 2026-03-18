@@ -14,9 +14,9 @@ module PC(
 );
     always @ (posedge clk or posedge reset)
     begin
-        if (reset!=0)
-        PC_F <= PCF;
+        if (reset)
+            PC_F <= 32'b0;
         else
-        PC_F <= 32'b0;
+            PC_F <= PCF;
     end
 endmodule 
